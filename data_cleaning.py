@@ -1,5 +1,4 @@
 import pandas as pd
-from database_utils import DatabaseConnector
 
 class DataCleaning():
     def __init__(self, data_frame):
@@ -37,15 +36,3 @@ class DataCleaning():
         self.df = self.df.reset_index(drop=True)
 
         return self.df
-
-if __name__ == '__main__':
-
-    db_connector = DatabaseConnector("db_creds.yaml")
-
-    # Read data from the 'legacy_users' table
-    table_name = 'legacy_users'
-    extracted_data = db_connector.read_rds_table(table_name)
-
-    cleaning_user_data = DataCleaning(extracted_data)
-    cleaned_data = cleaning_user_data.clean_user_data()
-    print(cleaned_data)
