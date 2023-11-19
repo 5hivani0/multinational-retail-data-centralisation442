@@ -19,7 +19,6 @@ class DataCleaning():
         # For United States
         self.df = self.df[(self.df['country'] == 'United States') & ((self.df['phone_number'].str.startswith('1') & (self.df['phone_number'].str.len() == 11)) | (self.df['phone_number'].str.len() == 10))]
         
-        
         # Cleaning country codes and validating them
         # Replace invalid country codes with a default value or NaN
         self.df['country_code'] = self.df['country_code'].replace('GBB', 'GB')
