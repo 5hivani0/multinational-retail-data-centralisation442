@@ -38,11 +38,6 @@ class DatabaseConnector():
         query = f"SELECT * FROM {table_name}"
         df = pd.read_sql_query(query, self.engine)
         return df
-    
-    def clean_user_data(self, user_data):
-        # drop rows with null values
-        cleaned_data = user_data.dropna()
-        return cleaned_data
 
 # Instantiate a DatabaseConnector with the YAML file containing database credentials
 db_connector = DatabaseConnector("db_creds.yaml")
@@ -56,7 +51,3 @@ table_name = 'legacy_users'
 extracted_data = db_connector.read_rds_table(table_name)
 print(f"Data from {table_name} as DataFrame:")
 print(extracted_data)
-
-# Clean the user data using the clean_user_data method
-cleaned_user_data = db_connector.clean_user_data(extracted_data)
-print(cleaned_user_data)
