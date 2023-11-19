@@ -13,11 +13,13 @@ class DataCleaning():
         # Cleaning phone numbers
         self.df['phone_number'] = self.df['phone_number'].str.replace('[^0-9]', '', regex=True)
         # For United Kingdom
-        self.df = self.df[(self.df['country'] == 'United Kingdom') & ((self.df['phone_number'].str.startswith('44') & (self.df['phone_number'].str.len() == 12)) | (self.df['phone_number'].str.startswith('0') & (self.df['phone_number'].str.len() == 11)))]
+        uk_condition = (self.df['country'] == 'United Kingdom') & ((self.df['phone_number'].str.startswith('44') & (self.df['phone_number'].str.len() == 12)) | (self.df['phone_number'].str.startswith('0') & (self.df['phone_number'].str.len() == 11)))
         # For Germany
-        self.df = self.df[(self.df['country'] == 'Germany') & ((self.df['phone_number'].str.startswith('49') & (self.df['phone_number'].str.len() == 12)) | (self.df['phone_number'].str.len() == 10))]
+        germany_condition = (self.df['country'] == 'Germany') & ((self.df['phone_number'].str.startswith('49') & (self.df['phone_number'].str.len() == 12)) | (self.df['phone_number'].str.len() == 10))
         # For United States
-        self.df = self.df[(self.df['country'] == 'United States') & ((self.df['phone_number'].str.startswith('1') & (self.df['phone_number'].str.len() == 11)) | (self.df['phone_number'].str.len() == 10))]
+        usa_condition = (self.df['country'] == 'United States') & ((self.df['phone_number'].str.startswith('1') & (self.df['phone_number'].str.len() == 11)) | (self.df['phone_number'].str.len() == 10))
+        # Concatenate the results for each country
+        self.df = pd.concat([self.df[uk_condition], self.df[germany_condition], self.df[usa_condition]])
         
         # Cleaning country codes and validating them
         # Replace invalid country codes with a default value or NaN
