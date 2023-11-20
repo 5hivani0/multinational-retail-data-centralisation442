@@ -47,11 +47,10 @@ class DataCleaning():
         return self.df
     
     def clean_card_data(self):
-        pattern = re.compile(r'^\d+$')
-        self.df = self.df['card_number'].apply(lambda x: bool(pattern.match(str(x))))
         self.df['expiry_date'] = pd.to_datetime(self.df['expiry_date'], format='%m/%y', errors='coerce')
         self.df['date_payment_confirmed'] = pd.to_datetime(self.df['date_payment_confirmed'], errors='coerce')
         self.df = self.df.dropna()
+        self.df = self.df[~self.df.apply(lambda row: row.astype(str).str.contains('NULL')).any(axis=1)]
         self.df = self.df.reset_index(drop=True)
         return self.df
         
