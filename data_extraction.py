@@ -14,8 +14,8 @@ class DataExtractor():
         df = pd.read_sql_query(query, self.engine)
         return df
     
-    def retrieve_pdf_data(link):
-        pdf_tables = tabula.read_pdf(link, pages='all', multiple_tables=True)
+    def retrieve_pdf_data(self, link_to_pdf):
+        pdf_tables = tabula.read_pdf(link_to_pdf, pages='all', multiple_tables=True)
         pdf_df = pd.concat(pdf_tables, ignore_index=True)
         return pdf_df
 
