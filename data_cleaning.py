@@ -49,7 +49,7 @@ class DataCleaning():
     def clean_card_data(self):
         self.df['expiry_date'] = pd.to_datetime(self.df['expiry_date'], format='%m/%y', errors='coerce')
         self.df['date_payment_confirmed'] = pd.to_datetime(self.df['date_payment_confirmed'], errors='coerce')
-        self.df['card_number'] = pd.to_numeric(self.df['card_number'], errors='coerce', downcast='integer')
+        self.df['card_number'] = pd.to_numeric(self.df['card_number'], errors='coerce').astype('Int64')
         self.df = self.df.dropna()
         self.df = self.df[~self.df.apply(lambda row: row.astype(str).str.contains('NULL')).any(axis=1)]
         self.df['card_number'] = self.df['card_number'].astype(int)
