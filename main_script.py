@@ -29,3 +29,10 @@ db_connector.upload_to_db(cleaned_data, table_name)
 link_to_pdf = "https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf"
 pdf_data = data_extractor.retrieve_pdf_data(link_to_pdf)
 print(pdf_data)
+
+cleaning_pdf_data = DataCleaning(pdf_data)
+cleaned_pdf_data = cleaning_pdf_data.clean_card_data()
+print(cleaned_pdf_data)
+
+pdf_table_name = 'dim_card_details'
+db_connector.upload_to_db(cleaned_pdf_data, pdf_table_name)

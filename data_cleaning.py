@@ -44,3 +44,16 @@ class DataCleaning():
         self.df = self.df.reset_index(drop=True)
 
         return self.df
+    
+    def clean_card_data(self):
+        self.df['card_number'] = pd.to_numeric(self.df['card_number'], errors='coerce')
+        pattern = r'^(0[1-9]|1[0-2])/\d{2}$'
+        self.df['expiry_date'] = self.df['expiry_date'].str.match(pattern)
+        self.df['date_payment_confirmed'] = pd.to_datetime(self.df['date_payment_confirmed'], format='%Y-%m-%d', errors='coerce')
+        self.df = self.df.dropna()
+        self.df = self.df[~self.df.apply(lambda row: row.astype(str).str.contains('NULL')).any(axis=1)]
+        self.df = self.df.reset_index(drop=True)
+        return self.df
+
+        
+
