@@ -1,8 +1,6 @@
 import yaml
 import pandas as pd
 from sqlalchemy import create_engine, inspect
-import psycopg2
-from data_cleaning import DataCleaning
 
 class DatabaseConnector():
     def __init__(self, filename):

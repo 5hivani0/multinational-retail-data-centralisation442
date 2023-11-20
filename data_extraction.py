@@ -1,6 +1,7 @@
 import pandas as pd
 from sqlalchemy import create_engine, inspect 
 from database_utils import DatabaseConnector
+import tabula
 
 class DataExtractor():
     def __init__(self):
@@ -12,6 +13,13 @@ class DataExtractor():
         query = f"SELECT * FROM {table_name}"
         df = pd.read_sql_query(query, self.engine)
         return df
+    
+    def retrieve_pdf_data(link):
+        pdf_tables = tabula.read_pdf(link, pages='all', multiple_tables=True)
+        pdf_df = pd.concat(pdf_tables, ignore_index=True)
+        return pdf_df
+
+
 
 
 
