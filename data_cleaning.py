@@ -47,12 +47,13 @@ class DataCleaning():
         return self.df
     
     def clean_card_data(self):
-        
         self.df['expiry_date'] = pd.to_datetime(self.df['expiry_date'], format='%m-%y', errors='coerce')
+        print("pd after expriy conversion")
         self.df['date_payment_confirmed'] = pd.to_datetime(self.df['date_payment_confirmed'], errors='coerce')
+        print("pd after date conversion")
         self.df = self.df.dropna()
+        print("pd after drop")
         self.df = self.df.reset_index(drop=True)
         return self.df
-
         
 
