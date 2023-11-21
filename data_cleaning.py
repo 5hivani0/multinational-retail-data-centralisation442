@@ -77,7 +77,7 @@ class DataCleaning():
         self.df['weight'] = pd.to_numeric(self.df['weight'].str.replace('ml', '', regex=False)) / 1000
         self.df['weight'] = pd.to_numeric(self.df['weight'].str.replace('kg', '', regex=False))
     
-    def clean_product_date(self):
+    def clean_product_data(self):
         self.convert_product_weights()
         self.df['weight'] = self.df['weight'].astype(float)
         self.df['date_added'] = pd.to_datetime(self.df['date_added'], errors='coerce')
