@@ -72,16 +72,15 @@ class DataCleaning():
         self.df = self.df.reset_index(drop=True)
         return self.df
     
-    def convert_product_weights(self):
-        for weight in self.df['weight']:
-            if 'kg' in weight:
-                return float(weight.replace('kg', ''))
-            elif 'g' in weight:
-                return float(weight.replace('g', '')) / 1000
-            elif 'ml' in weight:
-                return float(weight.replace('ml', '')) / 1000
-            else:
-                pass
+    def convert_product_weights(self, weight):
+        if 'kg' in weight:
+            return float(weight.replace('kg', ''))
+        elif 'g' in weight:
+            return float(weight.replace('g', '')) / 1000
+        elif 'ml' in weight:
+            return float(weight.replace('ml', '')) / 1000
+        else:
+            pass
     
     def clean_product_data(self):
         self.df['weight'] = self.df['weight'].apply(self.convert_product_weights)
