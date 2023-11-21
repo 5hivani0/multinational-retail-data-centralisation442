@@ -73,6 +73,7 @@ class DataCleaning():
         return self.df
 
     def convert_product_weights(self):
+        self.df['weight'] = pd.to_numeric(self.df['weight'].str.replace('k', '', regex=False))
         self.df['weight'] = pd.to_numeric(self.df['weight'].str.replace('g', '', regex=False)) / 1000
         self.df['weight'] = pd.to_numeric(self.df['weight'].str.replace('ml', '', regex=False)) / 1000
         self.df['weight'] = pd.to_numeric(self.df['weight'].str.replace('kg', '', regex=False))
