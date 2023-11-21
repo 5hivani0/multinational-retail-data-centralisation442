@@ -1,13 +1,13 @@
 import pandas as pd
-from sqlalchemy import create_engine, inspect 
 from database_utils import DatabaseConnector
 import tabula
-from data_cleaning import DataCleaning
+import requests
 
 class DataExtractor():
     def __init__(self):
         self.db_connector = DatabaseConnector("db_creds.yaml")
         self.engine = self.db_connector.engine
+        self.headers = {'x-api-key': api_key}
 
     def read_rds_table(self, table_name):
         # Read data from the specified table and return as a DataFrame
@@ -19,3 +19,18 @@ class DataExtractor():
         pdf_tables = tabula.read_pdf(link_to_pdf, pages='all', multiple_tables=True)
         pdf_df = pd.concat(pdf_tables, ignore_index=True)
         return pdf_df
+    
+    def list_number_of_stores(self, number_stores_endpoint):
+        response = requests.get(number_stores_endpoint, headers=self.headers)
+        return response.json()['number_stores']
+    
+    def retrieve_stores_data(self, store_endpoint_template, num_stores):
+        response_data = []
+
+        for store in range(num_stores):
+            endpoint = store_endpoint_template + f'/store_details/{store}'
+            response = requests.get(endpoint, headers=self.headers)
+            response_data.append(response.json())
+
+        store_details = pd.DataFrame(response_data)
+        return store_details
