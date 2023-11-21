@@ -76,7 +76,7 @@ class DataCleaning():
         unit_mapping = {'k': 1, 'g': 0.001, 'ml': 0.001, 'kg': 1}
 
         for unit, factor in unit_mapping.items():
-            mask = self.df['weight'].str.endswith(unit)
+            mask = self.df['weight'].str.contains(unit)
             self.df.loc[mask, 'weight'] = pd.to_numeric(self.df.loc[mask, 'weight'].str.replace(unit, '', regex=False)) * factor
     
     def clean_product_data(self):
