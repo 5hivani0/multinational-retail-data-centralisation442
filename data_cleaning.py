@@ -84,7 +84,7 @@ class DataCleaning():
                 pass
     
     def clean_product_data(self):
-        self.df['weight'] = self.df['weight'].apply(convert_product_weights)
+        self.df['weight'] = self.df['weight'].apply(self.convert_product_weights)
         valid_availability = ['Removed', 'Still_available']
         self.df = self.df[self.df['removed'].isin(valid_availability)]
         self.df['date_added'] = pd.to_datetime(self.df['date_added'], errors='coerce')

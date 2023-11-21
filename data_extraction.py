@@ -3,6 +3,7 @@ from database_utils import DatabaseConnector
 import tabula
 import requests
 import boto3
+from data_cleaning import DataCleaning
 
 class DataExtractor():
     def __init__(self):
