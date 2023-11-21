@@ -72,13 +72,13 @@ class DataCleaning():
         self.df = self.df.reset_index(drop=True)
         return self.df
     
-    def convert_product_weights(self, weight):
+    def convert_product_weights(self):
         if 'kg' in weight:
-            return weight.replace('kg', '')
+            return float(weight.replace('kg', ''))
         elif 'g' in weight:
-            return weight.replace('g', '') / 1000
+            return float(weight.replace('g', '')) / 1000
         elif 'ml' in weight:
-            return weight.replace('ml', '') / 1000
+            return float(weight.replace('ml', '')) / 1000
         else:
             pass
     
