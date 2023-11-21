@@ -58,22 +58,18 @@ class DataCleaning():
     def clean_store_data(self):
         self.df['continent'] = self.df['continent'].replace('eeEurope', 'Europe')
         self.df['continent'] = self.df['continent'].replace('eeAmerica', 'America')
-
         country_mapping = {'DE': 'Europe', 'US': 'America', 'GB': 'Europe'}
         self.df = self.df[self.df['continent'] == self.df['country_code'].map(country_mapping)]
-
         valid_store_types = ['Web Portal', 'Local', 'Super Store', 'Mall Kiosk', 'Outlet']
         self.df = self.df[self.df['store_type'].isin(valid_store_types)]
-
-        self.df['opening_date'] = pd.to_datetime(self.df['opening_date'], errors='coerce')
-
         self.df['latitude'] = pd.to_numeric(self.df['latitude'], errors='coerce')
         self.df['longitude'] = pd.to_numeric(self.df['longitude'], errors='coerce')
         self.df = self.df[(self.df['latitude'] >= -90) & (self.df['latitude'] <= 90)]
         self.df = self.df[(self.df['longitude'] >= -180) & (self.df['longitude'] <= 180)]
-
+        self.df['opening_date'] = pd.to_datetime(self.df['opening_date'], errors='coerce')
         self.df = self.df[~self.df.apply(lambda row: row.astype(str).str.contains('NULL')).any(axis=1)]
         self.df = self.df[~self.df.apply(lambda row: row.astype(str).str.contains('N/A')).any(axis=1)]
         self.df = self.df.drop('lat', axis=1)
         self.df = self.df.reset_index(drop=True)
         return self.df
+

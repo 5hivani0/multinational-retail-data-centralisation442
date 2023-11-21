@@ -34,3 +34,5 @@ class DataExtractor():
 
         store_details = pd.DataFrame(response_data)
         return store_details
+
+api_key = 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'

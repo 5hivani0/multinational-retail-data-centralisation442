@@ -32,7 +32,6 @@ pdf_table_name = 'dim_card_details'
 db_connector.upload_to_db(cleaned_pdf_data, pdf_table_name)
 
 # Extract store details, clean and upload
-api_key = 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'
 number_stores_endpoint = 'https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/number_stores'
 store_endpoint_template = 'https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod'
 
