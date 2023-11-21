@@ -80,7 +80,7 @@ class DataCleaning():
         elif 'ml' in weight:
             return pd.Series(float(weight.replace('ml', '')) / 1000)
         else:
-            return None pd.Series([None], index=[weight.index[0]])
+            return pd.Series([None], index=[weight.index[0]])
     
     def clean_product_data(self):
         self.df['weight'] = self.df['weight'].apply(self.convert_product_weights)
