@@ -68,7 +68,6 @@ class DataCleaning():
         self.df = self.df[(self.df['longitude'] >= -180) & (self.df['longitude'] <= 180)]
         self.df['opening_date'] = pd.to_datetime(self.df['opening_date'], errors='coerce')
         self.df = self.df[~self.df.apply(lambda row: row.astype(str).str.contains('NULL')).any(axis=1)]
-        self.df = self.df[~self.df.apply(lambda row: row.astype(str).str.contains('N/A')).any(axis=1)]
         self.df = self.df.drop('lat', axis=1)
         self.df = self.df.reset_index(drop=True)
         return self.df

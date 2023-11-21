@@ -2,12 +2,14 @@ import pandas as pd
 from database_utils import DatabaseConnector
 import tabula
 import requests
+import boto3
 
 class DataExtractor():
     def __init__(self):
         self.db_connector = DatabaseConnector("db_creds.yaml")
         self.engine = self.db_connector.engine
         self.headers = {'x-api-key': api_key}
+        self.s3 = boto3.client('s3')
 
     def read_rds_table(self, table_name):
         # Read data from the specified table and return as a DataFrame
@@ -34,5 +36,24 @@ class DataExtractor():
 
         store_details = pd.DataFrame(response_data)
         return store_details
+    
+    def extract_from_s3(self, s3_address):
+        bucket, key = self.parse_s3_address(s3_address)
+        response = self.s3.get_object(Bucket=bucket, Key=key)
+        product_df = pd.read_csv(response['Body'])
+        return product_df
+    
+    def parse_s3_address(self, s3_address):
+        # Extract bucket name and key from S3 address
+        parts = s3_address.replace('s3://', '').split('/')
+        bucket = parts[0]
+        key = '/'.join(parts[1:])
+        return bucket, key
 
-api_key = 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'
+api_key = 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'                                                        
+
+data_extractor = DataExtractor()
+s3_address = "s3://data-handling-public/products.csv"
+dataframe = data_extractor.extract_from_s3(s3_address)
+print(dataframe)
+
