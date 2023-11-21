@@ -54,6 +54,9 @@ api_key = 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'
 
 data_extractor = DataExtractor()
 s3_address = "s3://data-handling-public/products.csv"
-dataframe = data_extractor.extract_from_s3(s3_address)
-print(dataframe)
+product_df = data_extractor.extract_from_s3(s3_address)
+
+cleaning_product_data = DataCleaning(product_df)
+cleaned_product_data = cleaning_product_data.clean_product_data()
+print(cleaned_product_data)
 
