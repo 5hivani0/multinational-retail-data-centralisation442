@@ -58,6 +58,6 @@ s3_address = "s3://data-handling-public/products.csv"
 product_df = data_extractor.extract_from_s3(s3_address)
 
 cleaning_product_data = DataCleaning(product_df)
-cleaned_prodcut_data = cleaning_product_data.convert_product_weight('weight')
+cleaned_prodcut_data = cleaning_product_data.convert_product_weights(product_df['weight'])
 print(cleaned_product_data)
 
