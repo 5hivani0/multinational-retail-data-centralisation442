@@ -73,14 +73,11 @@ class DataCleaning():
         return self.df
 
     def convert_product_weights(self):
-        units_to_convert = ['k', 'g', 'ml']
-        for unit in units_to_convert:
-            mask = self.df['weight'].str.endswith(unit)
-            self.df.loc[mask, 'weight'] = pd.to_numeric(self.df.loc[mask, 'weight'].str.replace(unit, '', regex=False))
+        unit_mapping = {'k': 1, 'g': 0.001, 'ml': 0.001, 'kg': 1}
 
-        # Convert to kilograms only for values not already in kilograms
-        mask_not_kg = ~self.df['weight'].str.endswith('kg')
-        self.df.loc[mask_not_kg, 'weight'] = self.df.loc[mask_not_kg, 'weight'] / 1000
+        for unit, factor in unit_mapping.items():
+            mask = self.df['weight'].str.endswith(unit)
+            self.df.loc[mask, 'weight'] = pd.to_numeric(self.df.loc[mask, 'weight'].str.replace(unit, '', regex=False)) * factor
     
     def clean_product_data(self):
         self.df['date_added'] = pd.to_datetime(self.df['date_added'], errors='coerce')
