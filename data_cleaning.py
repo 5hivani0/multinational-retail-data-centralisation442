@@ -72,7 +72,7 @@ class DataCleaning():
         self.df = self.df.reset_index(drop=True)
         return self.df
     
-    def convert_product_weights(self):
+    def convert_product_weights(self, weight):
         for weight in self.df['weight']:
             if 'kg' in weight:
                 return float(weight.replace('kg', ''))
