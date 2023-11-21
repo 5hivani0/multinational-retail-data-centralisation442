@@ -74,16 +74,16 @@ class DataCleaning():
     
     def convert_product_weights(self, weight):
         if 'kg' in weight:
-            return float(weight.replace('kg', ''))
+            return weight.replace('kg', '')
         elif 'g' in weight:
-            return float(weight.replace('g', '')) / 1000
+            return weight.replace('g', '') / 1000
         elif 'ml' in weight:
-            return float(weight.replace('ml', '')) / 1000
+            return weight.replace('ml', '') / 1000
         else:
             pass
     
     def clean_product_data(self):
-        self.df['weight'] = self.df['weight'].apply(lambda x: self.convert_product_weights(x))
+        self.df['weight'] = self.df['weight'].apply(self.convert_product_weights)
         valid_availability = ['Removed', 'Still_available']
         self.df = self.df[self.df['removed'].isin(valid_availability)]
         self.df['date_added'] = pd.to_datetime(self.df['date_added'], errors='coerce')
