@@ -83,10 +83,10 @@ class DataCleaning():
         self.df.loc[mask_not_kg, 'weight'] = self.df.loc[mask_not_kg, 'weight'] / 1000
     
     def clean_product_data(self):
-        self.convert_product_weights()
         self.df['weight'] = self.df['weight'].astype(float)
         self.df['date_added'] = pd.to_datetime(self.df['date_added'], errors='coerce')
         self.df = self.df.dropna()
+        self.convert_product_weights()
         self.df = self.df.reset_index(drop=True)
         return self.df
 
