@@ -71,23 +71,17 @@ class DataCleaning():
         self.df = self.df.drop('lat', axis=1)
         self.df = self.df.reset_index(drop=True)
         return self.df
-        
-    def convert_product_weights(self, weight):
-        if 'kg' in weight:
-            return weight.replace('kg', '')
-        elif 'g' in weight:
-            return str(float(weight.replace('g', '')) / 1000)
-        elif 'ml' in weight:
-            return str(float(weight.replace('ml', '')) / 1000)
-        else:
-            return None
 
-    def clean_product_data(self):
-        self.df['weight'] = self.df['weight'].apply(self.convert_product_weights)
+    def convert_product_weights(self):
+        self.df['weight'] = pd.to_numeric(self.df['weight'].str.replace('g', '', regex=False)) / 1000
+        self.df['weight'] = pd.to_numeric(self.df['weight'].str.replace('ml', '', regex=False)) / 1000
+        self.df['weight'] = pd.to_numeric(self.df['weight'].str.replace('kg', '', regex=False))
+    
+    def clean_product_date(self):
+        self.convert_product_weights()
+        self.df['weight'] = self.df['weight'].astype(float)
         self.df['date_added'] = pd.to_datetime(self.df['date_added'], errors='coerce')
         self.df = self.df.dropna()
         self.df = self.df.reset_index(drop=True)
         return self.df
-
-
 
