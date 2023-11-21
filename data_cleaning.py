@@ -72,17 +72,26 @@ class DataCleaning():
         self.df = self.df.reset_index(drop=True)
         return self.df
 
-    def convert_product_weights(self):
-        unit_mapping = {'k': 1, 'g': 0.001, 'ml': 0.001, 'kg': 1}
-
-        for unit, factor in unit_mapping.items():
-            mask = self.df['weight'].str.contains(unit)
-            self.df.loc[mask, 'weight'] = pd.to_numeric(self.df.loc[mask, 'weight'].str.replace(unit, '', regex=False)) * factor
+    def convert_product_weights(self, column_name):
+        def convert_value(value):
+            if 'kg' in weight:
+                # Remove 'kg' and change to float
+                return float(weight.replace('kg', ''))
+            elif 'g' in weight:
+                # Remove 'g', change to float, and divide by 1000
+                return float(weight.replace('g', '')) / 1000
+            elif 'ml' in weight:
+                # Remove 'ml', change to float, and divide by 1000
+                return float(weight.replace('ml', '')) / 1000
+            else:
+                # If none of the conditions are met, return nothing
+                return None
+        self.df['weight'] = self.df['weight'].apply(convert_value)
+        self.df = self.df.dropna()
+        return self.df
     
     def clean_product_data(self):
         self.df['date_added'] = pd.to_datetime(self.df['date_added'], errors='coerce')
         self.df = self.df.dropna()
-        self.convert_product_weights()
         self.df = self.df.reset_index(drop=True)
         return self.df
-
