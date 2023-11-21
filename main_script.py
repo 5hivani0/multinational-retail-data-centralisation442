@@ -37,11 +37,9 @@ store_endpoint_template = 'https://aqj7u5id95.execute-api.eu-west-1.amazonaws.co
 
 num_stores = data_extractor.list_number_of_stores(number_stores_endpoint)
 stores_data_df = data_extractor.retrieve_stores_data(store_endpoint_template, num_stores)
-print(stores_data_df)
 
 cleaning_store_data = DataCleaning(stores_data_df)
 cleaned_store_data = cleaning_store_data.clean_store_data()
-print(cleaned_store_data)
 
 store_table_name = 'dim_store_details'
 db_connector.upload_to_db(cleaned_store_data, store_table_name)
