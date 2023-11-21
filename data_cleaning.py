@@ -87,7 +87,6 @@ class DataCleaning():
                 # If none of the conditions are met, return nothing
                 return None
         self.df['weight'] = self.df['weight'].apply(convert_value)
-        self.df = self.df.dropna()
         return self.df
     
     def clean_product_data(self):
