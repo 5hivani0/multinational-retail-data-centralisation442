@@ -104,5 +104,6 @@ class DataCleaning():
         valid_availability = ['Removed', 'Still_available']
         self.df = self.df[self.df['removed'].isin(valid_availability)]
         self.df['date_added'] = pd.to_datetime(self.df['date_added'], errors='coerce')
+        self.df = self.df.dropna()
         return self.df
 
