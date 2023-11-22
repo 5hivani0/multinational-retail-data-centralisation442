@@ -92,7 +92,7 @@ class DataCleaning():
             else:
                 # If none of the conditions are met, append None
                 converted_weights_in_kg.append(None)
-        self.df['weight'] = converted_weights_in_kg
+        self.df['converted_weights'] = converted_weights_in_kg
         # Convert the column to float
         self.df['converted_weights_in_kg'] = self.df['weight'].astype(float)
         return self.df
