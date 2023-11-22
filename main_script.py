@@ -53,9 +53,12 @@ cleaned_product_data = cleaning_product_data.clean_product_data()
 product_table_name = 'dim_product'
 db_connector.upload_to_db(cleaned_product_data, product_table_name)
 
+
 # Extract orders table details, clean and upload
 orders_table_name = 'orders_table'
 orders_extracted_data = data_extractor.read_rds_table(orders_table_name)
 
 cleaning_orders_data = DataCleaning(orders_extracted_data)
 order_cleaned_data = cleaning_orders_data.clean_orders_data()
+order_table_name = 'orders_table'
+db_connector.upload_to_db(order_cleaned_data, order_table_name)
