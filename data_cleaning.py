@@ -83,11 +83,11 @@ class DataCleaning():
                 elif "g" in weight:
                     # Keep it as is (already a float) since it's assumed to be in grams
                     weight_numeric = re.sub(r'[^0-9.]', '', weight)
-                    converted_weights_in_kg.append(float(weight) / 1000)
+                    converted_weights_in_kg.append(float(weight_numeric) / 1000)
                 elif "ml" in weight:
                     # Remove 'ml', change to float and divide by 1000
                     weight_numeric = re.sub(r'[^0-9.]', '', weight)
-                    converted_weights_in_kg.append(float(weight) / 1000)
+                    converted_weights_in_kg.append(float(weight_numeric) / 1000)
                 else:
                     # If none of the conditions are met, append None
                     converted_weights_in_kg.append(None)
