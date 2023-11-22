@@ -75,15 +75,42 @@ class DataCleaning():
     def convert_product_weights(self):
         converted_weights_in_kg = []
         for weight in self.df['weight']:
+            if weight.endswith("kg"):
+                # Remove 'kg' and change to float
+                weight = weight.replace('kg', '')
+                converted_weights_in_kg.append(float(weight))
+            elif weight.endswith("g"):
+                # Keep it as is (already a float) since it's assumed to be in grams
+                weight = weight.replace('g', '')
+                converted_weights_in_kg.append(float(weight) / 1000)
+            elif weight.endswith("ml"):
+                # Remove 'ml', change to float and divide by 1000
+                weight = weight.replace('ml', '')
+                converted_weights_in_kg.append(float(weight) / 1000)
+            else:
+                # If none of the conditions are met, return nothing
+                converted_weights_in_kg.append(None)
+        
+        self.df['weight'] = converted_weights_in_kg
+
+        # Convert the column to float
+        self.df['converted_weights_in_kg'] = self.df['weight'].astype(float)
+
+        return self.df
+    
+    
+    def original():
+        converted_weights_in_kg = []
+        for weight in self.df['weight']:
             if weight[-2:] == "kg":
                 # Remove 'kg' and change to float
-                converted_weights_in_kg.append(weight.replace('kg', ''))
+                converted_weights_in_kg.append(float(weight.replace('kg', '')))
             elif weight[-1:] == "g":
                 # Remove 'g', change to float, and divide by 1000
-                converted_weights_in_kg.append((weight.replace('g', '')) / 1000)
+                converted_weights_in_kg.append(float(weight.replace('g', '')) / 1000)
             elif weight[-2:] == "ml":
                 # Remove 'ml', change to float, and divide by 1000
-                converted_weights_in_kg.append((weight.replace('ml', '')) / 1000)
+                converted_weights_in_kg.append(float(weight.replace('ml', '')) / 1000)
             else:
                 # If none of the conditions are met, return nothing
                 converted_weights_in_kg.append(None)
