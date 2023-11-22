@@ -105,7 +105,7 @@ class DataCleaning():
         return self.df
 
     def clean_product_data(self):
-        self.df = self.convert_product_weight()
+        self.df = self.convert_product_weights()
         self.df = self.df[self.df['store_type'].isin(valid_store_types)]
         self.df['date_added'] = pd.to_datetime(self.df['date_added'], errors='coerce')
         self.df = self.df.dropna()
