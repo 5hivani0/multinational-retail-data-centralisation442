@@ -98,6 +98,7 @@ class DataCleaning():
         return self.df
 
     def clean_product_data(self):
+        self.df = self.df.convert_product_weights()
         valid_category = ['toys-and-games', 'sports-and-leisure', 'pets', 'homeware', 'health-and-beauty', 'food-and-drink', 'diy']
         self.df = self.df[self.df['category'].isin(valid_category)]
         valid_availability = ['Removed', 'Still_available']
