@@ -104,52 +104,6 @@ class DataCleaning():
         self.df['converted_weights_in_kg'] = self.df['weight'].astype(float)
         return self.df
 
-
-    def extra():
-        converted_weights_in_kg = []
-        for weight in self.df['weight']:
-            if 'kg' in weight:
-                # Remove 'kg' and change to float
-                weight = weight.replace('kg', '')
-                converted_weights_in_kg.append(float(weight))
-            elif 'g' in weight:
-                # Keep it as is (already a float) since it's assumed to be in grams
-                weight = weight.replace('g', '')
-                converted_weights_in_kg.append(float(weight) / 1000)
-            elif 'ml' in weight:
-                # Remove 'ml', change to float and divide by 1000
-                weight = weight.replace('ml', '')
-                converted_weights_in_kg.append(float(weight) / 1000)
-            else:
-                # If none of the conditions are met, return nothing
-                converted_weights_in_kg.append(None)
-        
-        self.df['weight'] = converted_weights_in_kg
-
-        # Convert the column to float
-        self.df['converted_weights_in_kg'] = self.df['weight'].astype(float)
-
-        return self.df
-    
-
-    def original():
-        converted_weights_in_kg = []
-        for weight in self.df['weight']:
-            if weight[-2:] == "kg":
-                # Remove 'kg' and change to float
-                converted_weights_in_kg.append(float(weight.replace('kg', '')))
-            elif weight[-1:] == "g":
-                # Remove 'g', change to float, and divide by 1000
-                converted_weights_in_kg.append(float(weight.replace('g', '')) / 1000)
-            elif weight[-2:] == "ml":
-                # Remove 'ml', change to float, and divide by 1000
-                converted_weights_in_kg.append(float(weight.replace('ml', '')) / 1000)
-            else:
-                # If none of the conditions are met, return nothing
-                converted_weights_in_kg.append(None)
-        self.df['converted_weights_in_kg'] = converted_weights_in_kg
-        return self.df
-    
     def clean_product_data(self):
         self.df['date_added'] = pd.to_datetime(self.df['date_added'], errors='coerce')
         self.df = self.df.dropna()
