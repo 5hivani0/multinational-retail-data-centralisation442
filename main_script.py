@@ -50,7 +50,6 @@ product_df = data_extractor.extract_from_s3(s3_address)
 
 cleaning_product_data = DataCleaning(product_df)
 cleaned_product_data = cleaning_product_data.clean_product_data()
-print(cleaned_product_data)
 
 product_table_name = 'dim_product'
 db_connector.upload_to_db(cleaned_product_data, product_table_name)
