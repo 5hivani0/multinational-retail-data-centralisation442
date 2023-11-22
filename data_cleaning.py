@@ -75,6 +75,29 @@ class DataCleaning():
     def convert_product_weights(self):
         converted_weights_in_kg = []
         for weight in self.df['weight']:
+            if "kg" in weight:
+                # Remove 'kg' and change to float
+                weight_numeric = re.sub(r'[^0-9.]', '', weight)
+                converted_weights_in_kg.append(float(weight_numeric))
+            elif "g" in weight:
+                # Keep it as is (already a float) since it's assumed to be in grams
+                weight_numeric = re.sub(r'[^0-9.]', '', weight)
+                converted_weights_in_kg.append(float(weight_numeric) / 1000)
+            elif "ml" in weight:
+                # Remove 'ml', change to float and divide by 1000
+                weight_numeric = re.sub(r'[^0-9.]', '', weight)
+                converted_weights_in_kg.append(float(weight_numeric) / 1000)
+            else:
+                # If none of the conditions are met, append None
+                converted_weights_in_kg.append(None)
+        self.df['weight'] = converted_weights_in_kg
+        # Convert the column to float
+        self.df['converted_weights_in_kg'] = self.df['weight'].astype(float)
+        return self.df
+
+    def og(self):
+        converted_weights_in_kg = []
+        for weight in self.df['weight']:
             if isinstance(weight, str):
                 if "kg" in weight:
                     # Remove 'kg' and change to float
@@ -106,6 +129,10 @@ class DataCleaning():
 
     def clean_product_data(self):
         self.df = self.convert_product_weights()
+        valid_category = ['toys-and-games', 'sports-and-leisure', 'pets', 'homeware', 'health-and-beauty', 'food-and-drink', 'diy']
+        self.df = self.df[self.df['category'].isin(valid_category)]
+        valid_availability = ['Removed', 'Still_available']
+        self.df = self.df[self.df['removed'].isin(valid_availability)]
         self.df['date_added'] = pd.to_datetime(self.df['date_added'], errors='coerce')
         self.df = self.df.dropna()
         self.df = self.df.reset_index(drop=True)
