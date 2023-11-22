@@ -94,7 +94,7 @@ class DataCleaning():
                 # If none of the conditions are met, append None
                 converted_weights_in_kg.append(None)
         
-        self.df['converted_weights_in_kg'] = converted_weights_in_kg
+        self.df['weight'] = converted_weights_in_kg
         return self.df
 
     def clean_product_data(self):
