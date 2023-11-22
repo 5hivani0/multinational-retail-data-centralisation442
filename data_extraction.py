@@ -53,6 +53,7 @@ orders_table_name = 'orders_table'
 data_extractor = DataExtractor()
 orders_extracted_data = data_extractor.read_rds_table(orders_table_name)
 print(orders_extracted_data.info())
+
 cleaning_orders_data = DataCleaning(orders_extracted_data)
 order_cleaned_data = cleaning_orders_data.clean_orders_data()
 print(order_cleaned_data)
