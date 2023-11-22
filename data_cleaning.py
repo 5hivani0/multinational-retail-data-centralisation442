@@ -76,15 +76,15 @@ class DataCleaning():
         converted_weights_in_kg = []
         for weight in self.df['weight']:
             if isinstance(weight, str):
-                if 'kg' in weight:
+                if weight[-2:] == "kg":
                     # Remove 'kg' and change to float
                     weight = weight.replace('kg', '')
                     converted_weights_in_kg.append(float(weight))
-                elif 'g' in weight:
+                elif weight[-1:] == "g":
                     # Keep it as is (already a float) since it's assumed to be in grams
                     weight = weight.replace('g', '')
                     converted_weights_in_kg.append(float(weight) / 1000)
-                elif 'ml' in weight:
+                elif weight[-2:] == "ml":
                     # Remove 'ml', change to float and divide by 1000
                     weight = weight.replace('ml', '')
                     converted_weights_in_kg.append(float(weight) / 1000)
