@@ -75,7 +75,9 @@ class DataCleaning():
     def convert_product_weights(self):
         converted_weights_in_kg = []
         for weight in self.df['weight']:
-            if "kg" in weight:
+            if isinstance(weight, (int, float)):
+                converted_weights_in_kg.append(float(weight))
+            elif "kg" in weight:
                 # Remove 'kg' and change to float
                 weight_numeric = re.sub(r'[^0-9.]', '', weight)
                 converted_weights_in_kg.append(float(weight_numeric))
