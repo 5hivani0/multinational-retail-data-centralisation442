@@ -78,15 +78,15 @@ class DataCleaning():
             if isinstance(weight, str):
                 if weight[-2:] == "kg":
                     # Remove 'kg' and change to float
-                    weight = weight.replace('kg', '')
-                    converted_weights_in_kg.append(float(weight))
+                    weight_numeric = re.sub(r'[^0-9.]', '', weight)
+                    converted_weights_in_kg.append(float(weight_numeric))
                 elif weight[-1:] == "g":
                     # Keep it as is (already a float) since it's assumed to be in grams
-                    weight = weight.replace('g', '')
+                    weight_numeric = re.sub(r'[^0-9.]', '', weight)
                     converted_weights_in_kg.append(float(weight) / 1000)
                 elif weight[-2:] == "ml":
                     # Remove 'ml', change to float and divide by 1000
-                    weight = weight.replace('ml', '')
+                    weight_numeric = re.sub(r'[^0-9.]', '', weight)
                     converted_weights_in_kg.append(float(weight) / 1000)
                 else:
                     # If none of the conditions are met, append None
