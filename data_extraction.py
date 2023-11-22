@@ -52,9 +52,8 @@ api_key = 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'
 data_extractor = DataExtractor()
 s3_address = "s3://data-handling-public/products.csv"
 product_table_df = data_extractor.extract_from_s3(s3_address)
-print(product_table_df)
 
-cleaning_product_data = DataCleaning(product_df)
+cleaning_product_data = DataCleaning(product_table_df)
 cleaned_product_data = cleaning_product_data.convert_product_weights()
 print(cleaned_product_data)
 
