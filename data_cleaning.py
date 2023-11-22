@@ -100,11 +100,4 @@ class DataCleaning():
 
     def clean_product_data(self):
         self.df = self.convert_product_weights()
-        valid_category = ['toys-and-games', 'sports-and-leisure', 'pets', 'homeware', 'health-and-beauty', 'food-and-drink', 'diy']
-        self.df = self.df[self.df['category'].isin(valid_category)]
-        valid_availability = ['Removed', 'Still_available']
-        self.df = self.df[self.df['removed'].isin(valid_availability)]
-        self.df['date_added'] = pd.to_datetime(self.df['date_added'], errors='coerce')
-        self.df = self.df.dropna()
-        self.df = self.df.reset_index(drop=True)
         return self.df

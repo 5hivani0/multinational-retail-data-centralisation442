@@ -53,6 +53,6 @@ data_extractor = DataExtractor()
 product_df = data_extractor.extract_from_s3(s3_address)
 
 cleaning_product_data = DataCleaning(product_df)
-cleaned_product_data = cleaning_product_data.convert_product_weights()
+cleaned_product_data = cleaning_product_data.clean_product_data()
 print(cleaned_product_data)
                                                     
