@@ -39,25 +39,23 @@ class DataExtractor():
         return store_details
     
     def extract_from_s3(self, s3_address):
-        bucket, key = self.parse_s3_address(s3_address)
+        parts = s3_address.replace('s3://', '').split('/')
+        bucket = parts[0]
+        key = '/'.join(parts[1:])
         response = self.s3.get_object(Bucket=bucket, Key=key)
         product_df = pd.read_csv(response['Body'])
         return product_df
     
-    def parse_s3_address(self, s3_address):
-        # Extract bucket name and key from S3 address
-        parts = s3_address.replace('s3://', '').split('/')
-        bucket = parts[0]
-        key = '/'.join(parts[1:])
-        return bucket, key
 
 api_key = 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'                                                        
 
 data_extractor = DataExtractor()
 s3_address = "s3://data-handling-public/products.csv"
-product_df = data_extractor.extract_from_s3(s3_address)
+product_table_df = data_extractor.extract_from_s3(s3_address)
+print(product_table_df)
 
 cleaning_product_data = DataCleaning(product_df)
-cleaned_product_data = cleaning_product_data.convert_product_weights(product_df['weight'])
+cleaned_product_data = cleaning_product_data.convert_product_weights()
 print(cleaned_product_data)
+
 
