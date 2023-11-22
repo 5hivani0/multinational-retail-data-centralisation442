@@ -95,13 +95,6 @@ class DataCleaning():
                 converted_weights_in_kg.append(None)
         
         self.df['weight'] = converted_weights_in_kg
-        valid_category = ['toys-and-games', 'sports-and-leisure', 'pets', 'homeware', 'health-and-beauty', 'food-and-drink', 'diy']
-        self.df = self.df[self.df['category'].isin(valid_category)]
-        valid_availability = ['Removed', 'Still_available']
-        self.df = self.df[self.df['removed'].isin(valid_availability)]
-        self.df['date_added'] = pd.to_datetime(self.df['date_added'], errors='coerce')
-        self.df = self.df.dropna()
-        self.df = self.df.reset_index(drop=True)
         self.df = self.df.dropna()
         return self.df
 
