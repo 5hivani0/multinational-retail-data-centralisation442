@@ -77,20 +77,19 @@ class DataCleaning():
         for weight in self.df['weight']:
             if isinstance(weight, (int, float)):
                 # If it's already a float or integer
-                weight_numeric = re.sub(r'[^0-9.]', '', weight)
-                converted_weights_in_kg.append(float(weight_numeric))
+                converted_weights_in_kg.append(float(weight))
             elif "kg" in weight:
                 # Remove 'kg' and change to float
-                weight_numeric = re.sub(r'[^0-9.]', '', weight)
-                converted_weights_in_kg.append(float(weight_numeric))
+                weight = re.sub(r'[^0-9.]', '')
+                converted_weights_in_kg.append(float(weight))
             elif "g" in weight:
                 # Remove 'g' and change to float and divide by 1000
-                weight_numeric = re.sub(r'[^0-9.]', '', weight)
-                converted_weights_in_kg.append(float(weight_numeric) / 1000)
+                weight = re.sub(r'[^0-9.]', '')
+                converted_weights_in_kg.append(float(weight) / 1000)
             elif "ml" in weight:
                 # Remove 'ml', change to float and divide by 1000
-                weight_numeric = re.sub(r'[^0-9.]', '', weight)
-                converted_weights_in_kg.append(float(weight_numeric) / 1000)
+                weight = re.sub(r'[^0-9.]', '')
+                converted_weights_in_kg.append(float(weight) / 1000)
             else:
                 # If none of the conditions are met, append None
                 converted_weights_in_kg.append(None)
