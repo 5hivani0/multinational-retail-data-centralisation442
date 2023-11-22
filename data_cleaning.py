@@ -95,9 +95,9 @@ class DataCleaning():
                 converted_weights_in_kg.append(None)
         
         self.df['weight'] = converted_weights_in_kg
+        self.df = self.df.dropna()
         return self.df
 
     def clean_product_data(self):
         self.df = self.convert_product_weights()
         return self.df
-
