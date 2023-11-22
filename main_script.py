@@ -11,15 +11,15 @@ tables = db_connector.list_db_tables()
 # Read data from the 'legacy_users' table
 user_table_name = 'legacy_users'
 data_extractor = DataExtractor()
-extracted_data = data_extractor.read_rds_table(user_table_name)
+user_extracted_data = data_extractor.read_rds_table(user_table_name)
 
 # Clean legacy_user data
-cleaning_user_data = DataCleaning(extracted_data)
-cleaned_data = cleaning_user_data.clean_user_data()
+cleaning_user_data = DataCleaning(user_extracted_data)
+user_cleaned_data = cleaning_user_data.clean_user_data()
 
 # Upload cleaned legacy_user data to pgadmin sales data
 table_name = 'dims_users'
-db_connector.upload_to_db(cleaned_data, table_name)
+db_connector.upload_to_db(user_cleaned_data, table_name)
 
 # Extract pdf table data
 link_to_pdf = "https://data-handling-public.s3.eu-west-1.amazonaws.com/card_details.pdf"

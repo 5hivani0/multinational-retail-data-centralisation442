@@ -108,3 +108,10 @@ class DataCleaning():
         self.df = self.df.dropna()
         self.df = self.df.reset_index(drop=True)
         return self.df
+    
+
+    def clean_orders_data(self):
+        self.df = self.df.drop('first_name', axis=1)
+        self.df = self.df.drop('last_name', axis=1)
+        self.df = self.df.drop('1', axis=1)
+        return self.df
