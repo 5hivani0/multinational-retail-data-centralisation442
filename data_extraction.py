@@ -53,12 +53,4 @@ class DataExtractor():
     
 
 api_key = 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'
-data_extractor = DataExtractor()
-
-number_stores_endpoint = 'https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod/number_stores'
-store_endpoint_template = 'https://aqj7u5id95.execute-api.eu-west-1.amazonaws.com/prod'
-
-num_stores = data_extractor.list_number_of_stores(number_stores_endpoint)
-stores_data_df = data_extractor.retrieve_stores_data(store_endpoint_template, num_stores)
-print(stores_data)
 
