@@ -2,11 +2,28 @@ import pandas as pd
 import re
 
 class DataCleaning():
+    """
+    Class for cleaning and transforming data in a DataFrame.
+
+    Attributes:
+        df (pd.DataFrame): DataFrame to be cleaned and transformed.
+    """
     def __init__(self, data_frame):
+        """
+        Initializes a new instance of the DataCleaning class.
+
+        Args:
+            data_frame (pd.DataFrame): DataFrame to be cleaned and transformed.
+        """
         self.df = data_frame
     
     def clean_user_data(self): 
-        
+        """
+        Clean and transform user data in the DataFrame.
+
+        Returns:
+            pd.DataFrame: Cleaned and transformed DataFrame containing user data.
+        """
         # Cleaning dates
         self.df['date_of_birth'] = pd.to_datetime(self.df['date_of_birth'], errors='coerce')
         self.df['join_date'] = pd.to_datetime(self.df['join_date'], errors='coerce')
@@ -47,6 +64,12 @@ class DataCleaning():
         return self.df
     
     def clean_card_data(self):
+        """
+        Clean and transform card data in the DataFrame.
+
+        Returns:
+            pd.DataFrame: Cleaned and transformed DataFrame containing card data.
+        """
         self.df['expiry_date'] = pd.to_datetime(self.df['expiry_date'], format='%m/%y', errors='coerce')
         self.df['date_payment_confirmed'] = pd.to_datetime(self.df['date_payment_confirmed'], errors='coerce')
         self.df['card_number'] = pd.to_numeric(self.df['card_number'], errors='coerce').astype('Int64')
@@ -56,6 +79,12 @@ class DataCleaning():
         return self.df
     
     def clean_store_data(self):
+        """
+        Clean and transform store data in the DataFrame.
+
+        Returns:
+            pd.DataFrame: Cleaned and transformed DataFrame containing store data.
+        """
         self.df['continent'] = self.df['continent'].replace('eeEurope', 'Europe')
         self.df['continent'] = self.df['continent'].replace('eeAmerica', 'America')
         country_mapping = {'DE': 'Europe', 'US': 'America', 'GB': 'Europe'}
@@ -68,6 +97,12 @@ class DataCleaning():
         return self.df
 
     def convert_product_weights(self):
+        """
+        Convert product weights to a consistent unit (kilograms).
+
+        Returns:
+            pd.DataFrame: DataFrame with weights converted to kilograms.
+        """
         converted_weights_in_kg = []
         for weight in self.df['weight']:
             if isinstance(weight, (int, float)):
@@ -94,6 +129,12 @@ class DataCleaning():
         return self.df
 
     def clean_product_data(self):
+        """
+        Clean and transform product data in the DataFrame.
+
+        Returns:
+            pd.DataFrame: Cleaned and transformed DataFrame containing product data.
+        """
         self.df = self.convert_product_weights()
         valid_category = ['toys-and-games', 'sports-and-leisure', 'pets', 'homeware', 'health-and-beauty', 'food-and-drink', 'diy']
         self.df = self.df[self.df['category'].isin(valid_category)]
@@ -105,12 +146,24 @@ class DataCleaning():
         return self.df
     
     def clean_orders_data(self):
+        """
+        Clean and transform orders data in the DataFrame.
+
+        Returns:
+            pd.DataFrame: Cleaned and transformed DataFrame containing orders data.
+        """
         self.df = self.df.drop('first_name', axis=1)
         self.df = self.df.drop('last_name', axis=1)
         self.df = self.df.drop('1', axis=1)
         return self.df
     
     def clean_datetime_data(self):
+        """
+        Clean and transform datetime data in the DataFrame.
+
+        Returns:
+            pd.DataFrame: Cleaned and transformed DataFrame containing datetime data.
+        """
         valid_timestamp_format = "%H:%M:%S"
         self.df['timestamp'] = pd.to_datetime(self.df['timestamp'], format=valid_timestamp_format, errors='coerce')
         self.df['timestamp'] = self.df['timestamp'].dt.time
