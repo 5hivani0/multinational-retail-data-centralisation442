@@ -38,7 +38,7 @@ class DataExtractor():
         store_details = pd.DataFrame(response_data)
         return store_details
     
-    def extract_from_s3(self, s3_address):
+    def csv_extract_from_s3(self, s3_address):
         parts = s3_address.replace('s3://', '').split('/')
         bucket = parts[0]
         key = '/'.join(parts[1:])
@@ -46,5 +46,17 @@ class DataExtractor():
         product_df = pd.read_csv(response['Body'])
         return product_df
     
+    def json_extract_from_s3(self, s3_address):
+        s3_url = s3_address
+        datetime_df = pd.read_json(s3_url)
+        return datetime_df
+    
 
-api_key = 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'                                                    
+api_key = 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'
+data_extractor = DataExtractor()
+json_s3_address = "https://data-handling-public.s3.eu-west-1.amazonaws.com/date_details.json"
+date_time_df = data_extractor.json_extract_from_s3(json_s3_address)
+
+cleaning_datetime_data = DataCleaning(date_time_df)
+cleaned_datetime_data = cleaning_datetime_data.clean_datetime_data()
+print(cleaned_datetime_data)

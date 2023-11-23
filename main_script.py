@@ -45,8 +45,8 @@ store_table_name = 'dim_store_details'
 db_connector.upload_to_db(cleaned_store_data, store_table_name)
 
 # Extract product details, clean and upload
-s3_address = "s3://data-handling-public/products.csv"
-product_df = data_extractor.extract_from_s3(s3_address)
+product_s3_address = "s3://data-handling-public/products.csv"
+product_df = data_extractor.csv_extract_from_s3(product_s3_address)
 
 cleaning_product_data = DataCleaning(product_df)
 cleaned_product_data = cleaning_product_data.clean_product_data()
