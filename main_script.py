@@ -69,6 +69,5 @@ date_time_df = data_extractor.json_extract_from_s3(json_s3_address)
 
 cleaning_datetime_data = DataCleaning(date_time_df)
 cleaned_datetime_data = cleaning_datetime_data.clean_datetime_data()
-print(cleaned_datetime_data)
 datetime_table_name = 'dim_date_times'
 db_connector.upload_to_db(cleaned_datetime_data, datetime_table_name)
