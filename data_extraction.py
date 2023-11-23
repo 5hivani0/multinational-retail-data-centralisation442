@@ -1,9 +1,10 @@
-import pandas as pd
-from database_utils import DatabaseConnector
-import tabula
-import requests
 import boto3
-from data_cleaning import DataCleaning
+from database_utils import DatabaseConnector
+import pandas as pd
+import requests
+import tabula
+
+api_key = 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'
 
 class DataExtractor():
     def __init__(self):
@@ -50,7 +51,3 @@ class DataExtractor():
         s3_url = s3_address
         datetime_df = pd.read_json(s3_url)
         return datetime_df
-    
-
-api_key = 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'
-

@@ -1,6 +1,5 @@
-import yaml
-import pandas as pd
 from sqlalchemy import create_engine, inspect
+import yaml
 
 class DatabaseConnector():
     def __init__(self, filename):
@@ -29,7 +28,7 @@ class DatabaseConnector():
         inspector = inspect(self.engine)
         return inspector.get_table_names()
 
-#upload db to pgadmin
+    #upload db to pgadmin
     def upload_to_db(self, df, table_name):
         sql_engine = create_engine(f"postgresql://localhost:5432/sales_data?user=postgres&password=Pigeon152.")    
         df.to_sql(table_name, sql_engine, if_exists='replace', index=False)
