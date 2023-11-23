@@ -116,10 +116,10 @@ class DataCleaning():
         return self.df
     
     def clean_datetime_data(self):
-        valid_timestamp_format = "%H:%M:%S"
-        self.df['timestamp'] = pd.to_datetime(self.df['timestamp'], format=valid_timestamp_format, errors='coerce')
-        valid_months = list(range(1, 13))
-        self.df = self.df[self.df['month'].isin(valid_months)]
+        self.df = self.df[self.df['day'].between(1, days_in_month)]
+        self.df['year'] = pd.to_numeric(self.df['year'], errors='coerce')
+        valid_time_period = ['Evening', 'Morning', 'Midday', 'Late_Hours']
+        self.df = self.df[self.df['time_period'].isin(valid_time_period)]
         self.df = self.df.dropna()
         return self.df
         
