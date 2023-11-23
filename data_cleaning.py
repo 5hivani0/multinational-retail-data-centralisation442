@@ -115,7 +115,7 @@ class DataCleaning():
         self.df = self.df.drop('1', axis=1)
         return self.df
     
-    def clean_datetime_data():
+    def clean_datetime_data(self):
         self.df['timestamp'] = pd.to_datetime(self.df['timestamp'], format=valid_timestamp_format, errors='coerce')
         valid_months = list(range(1, 13))
         self.df = self.df[self.df['month'].astype(int).isin(valid_months)]
