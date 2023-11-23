@@ -18,7 +18,7 @@ cleaning_user_data = DataCleaning(user_extracted_data)
 user_cleaned_data = cleaning_user_data.clean_user_data()
 
 # Upload cleaned legacy_user data to pgadmin sales data
-table_name = 'dims_users'
+table_name = 'dim_users'
 db_connector.upload_to_db(user_cleaned_data, table_name)
 
 # Extract pdf table data
