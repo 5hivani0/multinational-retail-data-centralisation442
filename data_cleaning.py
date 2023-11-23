@@ -122,7 +122,5 @@ class DataCleaning():
         self.df['year'] = pd.to_numeric(self.df['year'], errors='coerce')
         valid_time_period = ['Evening', 'Morning', 'Midday', 'Late_Hours']
         self.df = self.df[self.df['time_period'].isin(valid_time_period)]
-        valid_months = list(range(1, 13))
-        self.df = self.df[self.df['month'].isin(valid_months)]
         return self.df
         
