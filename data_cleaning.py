@@ -155,6 +155,21 @@ class DataCleaning():
         self.df = self.df.drop('first_name', axis=1)
         self.df = self.df.drop('last_name', axis=1)
         self.df = self.df.drop('1', axis=1)
+        
+        self.df['date_uuid'] = self.df['date_uuid'].astype('UUID')
+        self.df['user_uuid'] = self.df['user_uuid'].astype('UUID')
+
+        # Determine the maximum lengths for VARCHAR columns
+        max_length_card_number = self.df['card_number'].str.len().max()
+        max_length_store_code = self.df['store_code'].str.len().max()
+        max_length_product_code = self.df['product_code'].str.len().max()
+
+        # Update data types for VARCHAR columns with the determined maximum lengths
+        self.df['card_number'] = self.df['card_number'].astype(f'VARCHAR({max_length_card_number})')
+        self.df['store_code'] = self.df['store_code'].astype(f'VARCHAR({max_length_store_code})')
+        self.df['product_code'] = self.df['product_code'].astype(f'VARCHAR({max_length_product_code})')
+
+        self.df['product_quantity'] = self.df['product_quantity'].astype('SMALLINT')
         return self.df
     
     def clean_datetime_data(self):
