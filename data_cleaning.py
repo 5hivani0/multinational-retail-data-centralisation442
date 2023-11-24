@@ -56,10 +56,6 @@ class DataCleaning():
         self.df['first_name'] = self.df['first_name'].str.replace('[^a-zA-Z\s]', '', regex=True)
         self.df['last_name'] = self.df['last_name'].str.replace('[^a-zA-Z\s]', '', regex=True)
 
-        # Handling NULL values and rows with 'NULL' string
-        self.df = self.df.dropna()
-        self.df = self.df[~self.df.apply(lambda row: row.astype(str).str.contains('NULL')).any(axis=1)]
-
         self.df = self.df.reset_index(drop=True)
 
         return self.df
