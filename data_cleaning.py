@@ -34,8 +34,6 @@ class DataCleaning():
         self.df['country_code'] = self.df['country_code'].replace('GBB', 'GB')
         valid_country_codes = ['DE', 'US', 'GB']
         self.df = self.df[self.df['country_code'].isin(valid_country_codes)]
-        
-        self.df = self.df.dropna()
 
         return self.df
     
