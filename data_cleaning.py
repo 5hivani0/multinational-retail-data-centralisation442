@@ -161,13 +161,12 @@ class DataCleaning():
         self.df['user_uuid'] = [uuid.UUID(str(uuid_val)) for uuid_val in self.df['user_uuid']]
         
         # Determine the maximum lengths for VARCHAR columns
-        self.df['card_number'] = self.df['card_number'].astype(str)
-        max_length_card_number = self.df['card_number'].str.len().max()
+        
         max_length_store_code = self.df['store_code'].str.len().max()
         max_length_product_code = self.df['product_code'].str.len().max()
 
         # Update data types for VARCHAR columns with the determined maximum lengths
-        self.df['card_number'] = self.df['card_number'].astype(f'VARCHAR({max_length_card_number})')
+        
         self.df['store_code'] = self.df['store_code'].astype(f'VARCHAR({max_length_store_code})')
         self.df['product_code'] = self.df['product_code'].astype(f'VARCHAR({max_length_product_code})')
 
