@@ -93,6 +93,7 @@ class DataCleaning():
         valid_store_types = ['Web Portal', 'Local', 'Super Store', 'Mall Kiosk', 'Outlet']
         self.df = self.df[self.df['store_type'].isin(valid_store_types)]
         self.df['opening_date'] = pd.to_datetime(self.df['opening_date'], errors='coerce')
+        self.df['staff_numbers'] = self.df['staff_numbers'].replace('[^\d]', '', regex=True)
         self.df = self.df.drop('lat', axis=1)
         self.df = self.df.reset_index(drop=True)
         return self.df

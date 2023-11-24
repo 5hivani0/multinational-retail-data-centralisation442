@@ -89,17 +89,7 @@ def main():
     """
     tables = db_connector.list_db_tables()
 
-    process_legacy_user_data(db_connector)
-
-    process_pdf_data(db_connector)
-
     process_store_data(db_connector)
-
-    process_product_data(db_connector)
-
-    process_orders_data(db_connector)
-    
-    process_datetime_data(db_connector)
 
 if __name__ == "__main__":
     data_extractor = DataExtractor()
