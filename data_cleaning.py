@@ -32,8 +32,6 @@ class DataCleaning():
         # Cleaning country codes and validating them
         # Replace invalid country codes with a default value or NaN
         self.df['country_code'] = self.df['country_code'].replace('GBB', 'GB')
-        valid_country_codes = ['DE', 'US', 'GB']
-        self.df = self.df[self.df['country_code'].isin(valid_country_codes)]
 
         return self.df
     
