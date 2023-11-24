@@ -156,11 +156,10 @@ class DataCleaning():
         self.df = self.df.drop('first_name', axis=1)
         self.df = self.df.drop('last_name', axis=1)
         self.df = self.df.drop('1', axis=1)
-
+        
         self.df['date_uuid'] = [uuid.UUID(str(uuid_val)) for uuid_val in self.df['date_uuid']]
         self.df['user_uuid'] = [uuid.UUID(str(uuid_val)) for uuid_val in self.df['user_uuid']]
-
-
+        
         # Determine the maximum lengths for VARCHAR columns
         max_length_card_number = self.df['card_number'].str.len().max()
         max_length_store_code = self.df['store_code'].str.len().max()
