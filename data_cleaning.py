@@ -55,12 +55,11 @@ class DataCleaning():
         Returns:
             pd.DataFrame: Cleaned and transformed DataFrame containing card data.
         """
-        self.df['expiry_date'] = pd.to_datetime(self.df['expiry_date'], format='%m/%y', errors='coerce')
-        self.df['date_payment_confirmed'] = pd.to_datetime(self.df['date_payment_confirmed'], errors='coerce')
-        self.df['card_number'] = pd.to_numeric(self.df['card_number'], errors='coerce').astype('Int64')
         self.df = self.df.dropna()
         self.df = self.df[~self.df.apply(lambda row: row.astype(str).str.contains('NULL')).any(axis=1)]
-        self.df = self.df.reset_index(drop=True)
+        self.df['date_payment_confirmed'] = pd.to_datetime(self.df['date_payment_confirmed'], errors='coerce')
+        self.df['card_number'] = self.df['card_number'].astype(str).replace('[\D]', '', regex=True)
+        self.df = self.df[self.df['card_number'].str.len() > 8]
         return self.df
     
     def clean_store_data(self):
@@ -82,6 +81,12 @@ class DataCleaning():
         return self.df
     
     def convert_product_weights(self):
+        """
+        Convert product weights to a consistent unit (kilograms).
+
+        Returns:
+            pd.DataFrame: DataFrame with weights converted to kilograms.
+        """
         converted_weights_in_kg = []
         for weight in self.df['weight']:
             if isinstance(weight, (int, float)):
@@ -111,7 +116,13 @@ class DataCleaning():
         return self.df
 
     def clean_product_data(self):
-        def custom_date_added_parser(date_str):
+         """
+        Clean and transform product data in the DataFrame.
+
+        Returns:
+            pd.DataFrame: Cleaned and transformed DataFrame containing product data.
+        """
+         def custom_date_added_parser(date_str):
             try:
                 # Try parsing with the original format
                 return pd.to_datetime(date_str, errors='raise')
@@ -126,7 +137,7 @@ class DataCleaning():
                     except ValueError:
                         # Handle other cases or return NaT (Not a Time) for unparseable dates
                         return date_str
-
+        
         self.df['date_added'] = self.df['date_added'].apply(custom_date_added_parser)
         self.df = self.convert_product_weights()
         valid_category = ['toys-and-games', 'sports-and-leisure', 'pets', 'homeware', 'health-and-beauty', 'food-and-drink', 'diy']
