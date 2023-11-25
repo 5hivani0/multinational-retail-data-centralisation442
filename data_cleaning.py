@@ -26,6 +26,11 @@ class DataCleaning():
             pd.DataFrame: Cleaned and transformed DataFrame containing user data.
         """
 
+        self.df = self.df.dropna()
+
+        self.df['date_of_birth'] = pd.to_datetime(self.df['date_of_birth'], errors='coerce')
+        self.df['join_date'] = pd.to_datetime(self.df['join_date'], errors='coerce')
+
         # Cleaning country codes and validating them
         # Replace invalid country codes with a default value or NaN
         self.df['country_code'] = self.df['country_code'].replace('GBB', 'GB')
