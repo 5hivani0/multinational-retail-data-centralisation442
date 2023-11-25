@@ -12,8 +12,7 @@ def process_legacy_user_data(db_connector):
     cleaning_user_data = DataCleaning(user_extracted_data)
     user_cleaned_data = cleaning_user_data.clean_user_data()
     
-    table_name = 'dim_users'
-    db_connector.upload_to_db(user_cleaned_data, table_name)
+    print(user_cleaned_data)
 
 def process_pdf_data(db_connector):
     """
