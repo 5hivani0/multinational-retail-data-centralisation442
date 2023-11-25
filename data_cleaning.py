@@ -22,7 +22,6 @@ class DataCleaning():
         self.df['date_of_birth'] = pd.to_datetime(self.df['date_of_birth'], errors='coerce')
         self.df['join_date'] = pd.to_datetime(self.df['join_date'], errors='coerce')
         self.df['country_code'] = self.df['country_code'].replace('GBB', 'GB')
-        self.df = self.df.dropna()
         return self.df
     
     def clean_card_data(self):
