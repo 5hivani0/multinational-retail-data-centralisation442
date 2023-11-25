@@ -12,7 +12,7 @@ def process_legacy_user_data(db_connector):
     cleaning_user_data = DataCleaning(user_extracted_data)
     user_cleaned_data = cleaning_user_data.clean_user_data()
     
-    print(user_cleaned_data)
+    print(user_cleaned_data['country_code'].unique())
 
 def process_pdf_data(db_connector):
     """
