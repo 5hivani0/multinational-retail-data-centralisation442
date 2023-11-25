@@ -24,44 +24,29 @@ class DataCleaning():
         Returns:
             pd.DataFrame: Cleaned and transformed DataFrame containing user data.
         """
-        # Cleaning dates
-        self.df['date_of_birth'] = pd.to_datetime(self.df['date_of_birth'], errors='coerce')
-        self.df['join_date'] = pd.to_datetime(self.df['join_date'], errors='coerce')
+        def custom_date_parser(date_str):
+            try:
+                # Try parsing with the original format
+                return pd.to_datetime(date_str, errors='raise')
+            except ValueError:
+                try:
+                    return pd.to_datetime(date_str, format='%Y-%m-%d', errors='raise')
+                except ValueError:
+                    try:
+                        return pd.to_datetime(date_str, format='%Y/%m/%d', errors='raise')
+                    except ValueError:
+                        try:
+                            return pd.to_datetime(date_str, format='%B %Y %m', errors='raise')
+                        except ValueError:
+                            # Handle other cases
+                            return date_str
 
-        # Cleaning phone numbers
-        self.df['phone_number'] = self.df['phone_number'].str.replace('[^0-9]', '', regex=True)
-        # For United Kingdom
-        uk_condition = (self.df['country'] == 'United Kingdom') & ((self.df['phone_number'].str.startswith('44') & (self.df['phone_number'].str.len() == 12)) | (self.df['phone_number'].str.startswith('0') & (self.df['phone_number'].str.len() == 11)))
-        # For Germany
-        germany_condition = (self.df['country'] == 'Germany') & ((self.df['phone_number'].str.startswith('49') & (self.df['phone_number'].str.len() == 12)) | (self.df['phone_number'].str.len() == 10))
-        # For United States
-        usa_condition = (self.df['country'] == 'United States') & ((self.df['phone_number'].str.startswith('1') & (self.df['phone_number'].str.len() == 11)) | (self.df['phone_number'].str.len() == 10))
-        # Concatenate the results for each country
-        self.df = pd.concat([self.df[uk_condition], self.df[germany_condition], self.df[usa_condition]])
-        
-        # Cleaning country codes and validating them
-        # Replace invalid country codes with a default value or NaN
-        self.df['country_code'] = self.df['country_code'].replace('GBB', 'GB')
-        valid_country_codes = ['DE', 'US', 'GB']
-        self.df = self.df[self.df['country_code'].isin(valid_country_codes)]
-        
-        country_mapping = {'DE': 'Germany', 'US': 'United States', 'GB': 'United Kingdom'}
-        self.df = self.df[self.df['country'] == self.df['country_code'].map(country_mapping)]
-
-        # Cleaning and validating email addresses
-        self.df['email_address'] = self.df['email_address'].apply(lambda x: x if '@' in x and '.' in x else None)
-
-        # Cleaning names (allow only alphabets and spaces)
-        self.df['first_name'] = self.df['first_name'].str.replace('[^a-zA-Z\s]', '', regex=True)
-        self.df['last_name'] = self.df['last_name'].str.replace('[^a-zA-Z\s]', '', regex=True)
-
-        # Handling NULL values and rows with 'NULL' string
-        self.df = self.df.dropna()
-        self.df = self.df[~self.df.apply(lambda row: row.astype(str).str.contains('NULL')).any(axis=1)]
-
-        self.df = self.df.reset_index(drop=True)
-
+        self.df['date_of_birth'] = self.df['date_of_birth'].apply(custom_date_parser)
+        self.df['join_date'] = self.df['join_date'].apply(custom_date_parser)
+        valid_country = ['United Kingdom', 'Germany', 'United States']
+        self.df = self.df[self.df['country'].isin(valid_country)]
         return self.df
+        
     
     def clean_card_data(self):
         """
@@ -95,14 +80,8 @@ class DataCleaning():
         self.df = self.df.drop('lat', axis=1)
         self.df = self.df.reset_index(drop=True)
         return self.df
-
+    
     def convert_product_weights(self):
-        """
-        Convert product weights to a consistent unit (kilograms).
-
-        Returns:
-            pd.DataFrame: DataFrame with weights converted to kilograms.
-        """
         converted_weights_in_kg = []
         for weight in self.df['weight']:
             if isinstance(weight, (int, float)):
@@ -120,6 +99,9 @@ class DataCleaning():
                 # Remove 'ml', change to float and divide by 1000
                 weight_numeric = re.sub(r'[^0-9.]', '', weight)
                 converted_weights_in_kg.append(float(weight_numeric) / 1000)
+            elif "oz" in weight:
+                    weight_numeric = re.sub(r'[^0-9.]', '', weight)
+                    converted_weights_in_kg.append(float(weight_numeric) * 0.0283495)
             else:
                 # If none of the conditions are met, append None
                 converted_weights_in_kg.append(None)
@@ -129,18 +111,28 @@ class DataCleaning():
         return self.df
 
     def clean_product_data(self):
-        """
-        Clean and transform product data in the DataFrame.
+        def custom_date_added_parser(date_str):
+            try:
+                # Try parsing with the original format
+                return pd.to_datetime(date_str, errors='raise')
+            except ValueError:
+                try:
+                    # Attempt to parse with month year day format
+                    return pd.to_datetime(date_str, format='%B %Y %d', errors='raise')
+                except ValueError:
+                    try:
+                        # Attempt to parse with year month day format
+                        return pd.to_datetime(date_str, format='%Y %B %d', errors='raise')
+                    except ValueError:
+                        # Handle other cases or return NaT (Not a Time) for unparseable dates
+                        return date_str
 
-        Returns:
-            pd.DataFrame: Cleaned and transformed DataFrame containing product data.
-        """
+        self.df['date_added'] = self.df['date_added'].apply(custom_date_added_parser)
         self.df = self.convert_product_weights()
         valid_category = ['toys-and-games', 'sports-and-leisure', 'pets', 'homeware', 'health-and-beauty', 'food-and-drink', 'diy']
         self.df = self.df[self.df['category'].isin(valid_category)]
         valid_availability = ['Removed', 'Still_avaliable']
         self.df = self.df[self.df['removed'].isin(valid_availability)]
-        self.df['date_added'] = pd.to_datetime(self.df['date_added'], errors='coerce')
         self.df = self.df.dropna()
         self.df = self.df.reset_index(drop=True)
         return self.df
