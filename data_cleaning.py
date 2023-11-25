@@ -19,8 +19,6 @@ class DataCleaning():
         self.df = data_frame
     
     def clean_user_data(self): 
-        self.df['date_of_birth'] = pd.to_datetime(self.df['date_of_birth'], errors='coerce')
-        self.df['join_date'] = pd.to_datetime(self.df['join_date'], errors='coerce')
         self.df['country_code'] = self.df['country_code'].replace('GBB', 'GB')
         return self.df
     
