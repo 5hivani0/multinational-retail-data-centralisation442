@@ -12,7 +12,8 @@ def process_legacy_user_data(db_connector):
     cleaning_user_data = DataCleaning(user_extracted_data)
     user_cleaned_data = cleaning_user_data.clean_user_data()
     
-    print(user_cleaned_data)
+    table_name = 'dim_users'
+    db_connector.upload_to_db(user_cleaned_data, table_name)
 
 def process_pdf_data(db_connector):
     """
@@ -65,7 +66,7 @@ def process_orders_data(db_connector):
     
     cleaning_orders_data = DataCleaning(orders_extracted_data)
     order_cleaned_data = cleaning_orders_data.clean_orders_data()
-
+   
     order_table_name = 'orders_table'
     db_connector.upload_to_db(order_cleaned_data, order_table_name)
 
@@ -90,7 +91,16 @@ def main():
 
     process_legacy_user_data(db_connector)
 
-    
+    process_pdf_data(db_connector)
+
+    process_store_data(db_connector)
+
+    process_product_data(db_connector)
+
+    process_orders_data(db_connector)
+
+    process_datetime_data(db_connector)
+
 if __name__ == "__main__":
     data_extractor = DataExtractor()
     db_connector = DatabaseConnector("db_creds.yaml")
