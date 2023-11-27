@@ -9,33 +9,62 @@
 * License
 
 ## Description ##
-Imagine you're working on a project for a forward-thinking organization that envisions a centralized data management system for efficient handling of various datasets. While the scenario is fictional, the goal remains to streamline data processes, making it easy to access and analyse effectively. 
+This project is focused on developing infrastructure designed to manage a wide range of datasets. The objective is to improve accessibility and streamline the analysis of data. The process involves extracting information from diverse sources, cleaning the data, and uploading it to a database. This database is then optimized to enhance storage efficiency and enable practical analysis of the data. The overarching aim is to establish an efficient system to derive meaningful insights from the collected data.
 
 ## What I Gained ##
+Through this project, I gained hands-on experience in data centralization, extraction, cleaning, and effective database management. I improved my skills with tools like pandas, boto3, and SQLAlchemy. Additionally, I learned to create STAR-based database schemas for optimized data storage and access, and executed complex SQL queries to extract valuable insights. Overall, this project has provided practical insights into building a comprehensive data pipeline for real-world scenarios.  
 
 ## Installation ##
-1. Create a database on pgadmin4 to store future cleaned tables of data
   
-2. Clone this repository to your computer:
+1. Clone this repository to your computer:
 
 git clone https://github.com/5hivani0/multinational-retail-data-centralisation442.git
 
-3. Navigate to the project directory:
+2. Navigate to the project directory:
 
-cd multinational-retail-data-centralisation442
+cd multinational-retail-data-centralisation442  
+  
+**Make sure you already have the folllowing tools installed before running files:**
+* **pandas**:  
+pip install pandas
+  
+* **re**  
+  
+* **boto3**  
+pip install boto3
+  
+* **request**  
+pip install requests
+  
+* **tabula**:  
+Before using tabula, ensure that Java is installed on your machine, refer to this [tabula-py document for details](https://tabula-py.readthedocs.io/en/latest/getting_started.html) for troubleshooting and additional instructions. Follow these instructions [here](https://www.java.com/en/download/manual.jsp) to install Java. After installing Java, you can run:  
+pip install tabula-py
 
-4. Make sure you are logged into AWS on your CLI, with permission to access and read s3 buckets
-
+* **sqlalchemy**:  
+pip install sqlalchemy
+  
+* **yaml**:  
+pip install pyYAML
+  
 ## Usage ##
-1. Edit the parameters in main_script.py to specify the paths, URLs, and other details relevant to your data sources and database.
-2. Run main_script.py to execute the entire data pipeline.
+1. Create a database on pgAdmin to store future cleaned dataframes.  
+2. Fill in the required information in the db_details section of the def upload_to_db method, found in the database_utils.py file, so that you can upload the cleaned dataframes to the databse you created in step 1. 
+3. Make sure you are logged into AWS on your CLI, with permission to access and read s3 buckets. 
+4. Run main_script.py to execute the entire data pipeline.  
+5. Open pgAdmin and run the MRDC_database_schema.sql file on your database to convert your table columns to the appropriate data type.  
+6. Use the MRDC_querying_the_data.sql file to run some queries to analyse the data.  
+  
+* If you want to access other data sources using the framework of the python scripts, edit the parameters in main_script.py to specify the paths, URLs, and other details relevant to your data sources and database. Change cleaning methods and SQL table alterations and queries accordingly.
 
 ## File Structure ##
-* README.md : This documentation file
-* main_script : brings everything together, calling the classes and methods from the other scripts to orchestrate the process of data extraction, cleaning, and database upload.
-* data_utils.py : contains DatabaseConnector class, to connect with and upload data to the database.
-* data_extraction.py : contains DataExtractor class, used to extract data from different data sources, , these sources will include CSV files, a PDF, an API, and an S3 bucket.
-* data_cleaning.py : contains DataCleaning class, used to clean data from each data source.
+* README.md : This documentation file  
+* main_script : brings everything together, calling the classes and methods from the other scripts to orchestrate the process of data extraction, cleaning, and database upload.  
+* data_utils.py : contains DatabaseConnector class, to connect with and upload data to the database.  
+* data_extraction.py : contains DataExtractor class, used to extract data from different data sources, , these sources will include CSV files, a PDF, an API, and an S3 bucket.  
+* data_cleaning.py : contains DataCleaning class, used to clean data from each data source.  
+* MRDC_database_schema.sql : contains SQL code to alter table columns to the appropriate data type, and create a schema with primary and foreign keys ready for analysis.  
+* MRDC_querying_the_data : contains queries that will be used to analyse and extract data.  
 
 
 ## License ##
+MIT
