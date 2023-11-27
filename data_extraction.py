@@ -11,8 +11,8 @@ class DataExtractor():
     Class for extracting data from various sources.
     
     Attributes:
-        db_connector (DatabaseConnector): Instance of DatabaseConnector for database interaction.
-        engine (sqlalchemy.engine.Engine): Database engine for SQL queries.
+        db_connector: Instance of DatabaseConnector for database interaction.
+        engine: Database engine for SQL queries.
         headers (dict): HTTP headers for API requests.
         s3 (boto3.client): Amazon S3 client for interacting with S3 storage.
     """
@@ -30,10 +30,10 @@ class DataExtractor():
         Read data from the specified RDS table and return as a DataFrame.
 
         Args:
-            table_name (str): Name of the RDS table.
+            table_name: Name of the RDS table.
 
         Returns:
-            pd.DataFrame: DataFrame containing the data from the specified table.
+            df: DataFrame containing the data from the specified table.
         """
         # Read data from the specified table and return as a DataFrame
         query = f"SELECT * FROM {table_name}"
@@ -45,10 +45,10 @@ class DataExtractor():
         Retrieve tabular data from a PDF file and return as a DataFrame.
 
         Args:
-            link_to_pdf (str): URL or local path to the PDF file.
+            link_to_pdf: URL or local path to the PDF file.
 
         Returns:
-            pd.DataFrame: DataFrame containing the extracted data from the PDF.
+            pd_df: DataFrame containing the extracted data from the PDF.
         """
         pdf_tables = tabula.read_pdf(link_to_pdf, pages='all', multiple_tables=True)
         pdf_df = pd.concat(pdf_tables, ignore_index=True)
@@ -59,7 +59,7 @@ class DataExtractor():
         Retrieve the number of stores from an API endpoint.
 
         Args:
-            number_stores_endpoint (str): API endpoint to get the number of stores.
+            number_stores_endpoint: API endpoint to get the number of stores.
 
         Returns:
             int: Number of stores.
@@ -72,11 +72,11 @@ class DataExtractor():
         Retrieve store details for the specified number of stores from an API endpoint.
 
         Args:
-            store_endpoint_template (str): API endpoint template for store details.
-            num_stores (int): Number of stores to retrieve details for.
+            store_endpoint_template: API endpoint template for store details.
+            num_stores: Number of stores to retrieve details for.
 
         Returns:
-            pd.DataFrame: DataFrame containing store details.
+            store_details: DataFrame containing store details.
         """
         response_data = []
 
@@ -93,10 +93,10 @@ class DataExtractor():
         Extract CSV data from an S3 address and return as a DataFrame.
 
         Args:
-            s3_address (str): S3 address in the format 's3://bucket/key'.
+            s3_address: S3 address in the format 's3://bucket/key'.
 
         Returns:
-            pd.DataFrame: DataFrame containing the CSV data.
+            product_df: DataFrame containing the CSV data.
         """
         parts = s3_address.replace('s3://', '').split('/')
         bucket = parts[0]
@@ -110,10 +110,10 @@ class DataExtractor():
         Extract JSON data from an S3 address and return as a DataFrame.
 
         Args:
-            s3_address (str): S3 address to the JSON file.
+            s3_address: S3 address to the JSON file.
 
         Returns:
-            pd.DataFrame: DataFrame containing the JSON data.
+            datetime_df: DataFrame containing the JSON data.
         """
         s3_url = s3_address
         datetime_df = pd.read_json(s3_url)
