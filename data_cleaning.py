@@ -25,6 +25,12 @@ class DataCleaning():
             df: Cleaned and transformed DataFrame containing user data.
         """
         def custom_date_parser(date_str):
+            """
+            Clean dates in user data table
+
+            Returns:
+                date_str: cleaned dates in the correct and same formate for all dates
+            """
             try:
                 return pd.to_datetime(date_str, errors='raise')
             except ValueError:
