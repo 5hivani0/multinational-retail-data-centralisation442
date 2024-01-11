@@ -8,7 +8,7 @@ class DataCleaning():
     Attributes:
         df: DataFrame to be cleaned and transformed.
     """
-    def __init__(self, data_frame):
+    def __init__(self, data_frame: pd.DataFraame):
         """
         Initializes a new instance of the DataCleaning class.
 
@@ -119,10 +119,15 @@ class DataCleaning():
         Clean and transform product data in the DataFrame.
 
         Returns:
-            date_str: Cleaned dates
             df: Cleaned and transformed DataFrame with date_str applied, containing product data.
         """
         def custom_date_added_parser(date_str):
+            """
+            Clean dates in product data table
+
+            Returns:
+                date_str: cleaned dates in the correct and same formate for all dates
+            """
             try:
                 return pd.to_datetime(date_str, errors='raise')
             except ValueError:
