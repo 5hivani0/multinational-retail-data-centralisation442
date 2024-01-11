@@ -65,9 +65,9 @@ pip install pyYAML
 * data_cleaning.py : contains DataCleaning class, used to clean data from each data source.  
 * MRDC_database_schema.sql : contains SQL code to alter table columns to the appropriate data type, and create a schema with primary and foreign keys ready for analysis.  
 * MRDC_querying_the_data : contains queries that will be used to analyse and extract data.
-* .gitignore : a file specifying untracked files that Git should ignore.
-* db_creds.yaml : YAML file containing database credentials
-* api_key.txt : text file containing the api key.
+* .gitignore : a file specifying untracked files that Git should ignore, and contains:
+    * db_creds.yaml : YAML file containing database credentials
+    * api_key.txt : text file containing the api key.
 
 ## Entity Relationship Diagram (ERD) ##  
 ![MRDC ERD](https://github.com/5hivani0/multinational-retail-data-centralisation442/assets/149093767/489b6ca1-03c4-4fe6-93ee-f2d094c67def)
