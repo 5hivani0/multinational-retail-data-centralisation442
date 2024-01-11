@@ -4,8 +4,6 @@ import pandas as pd
 import requests
 import tabula
 
-api_key = 'yFBQbwXe9J3sd6zWVAMrK6lcxxr0q1lr2PT6DDMX'
-
 class DataExtractor():
     """
     Class for extracting data from various sources.
@@ -22,7 +20,11 @@ class DataExtractor():
         """
         self.db_connector = DatabaseConnector("db_creds.yaml")
         self.engine = self.db_connector.engine
-        self.headers = {'x-api-key': api_key}
+
+        with open('api_key.txt', 'r') as file:
+            self.api_key = file.read().strip()
+        self.headers = {'x-api-key': self.api_key}
+        
         self.s3 = boto3.client('s3')
 
     def read_rds_table(self, table_name):
