@@ -49,11 +49,22 @@ Before using tabula, ensure that Java is installed on your machine, refer to thi
   
 ## Usage ##
 1. Create a database on pgAdmin to store future cleaned dataframes.  
-2. Fill in the required information in the db_details section of the def upload_to_db method, found in the ``` database_utils.py ``` file, so that you can upload the cleaned dataframes to the databse you created in step 1. 
+2. Fill in the required credentials information in the db_details section of the def upload_to_db method, found in the ``` database_utils.py ``` file, so that you can upload the cleaned dataframes to the databse you created in step 1.
+```
+ db_details = {
+            'host': '', # enter host here
+            'port': '', # enter port here
+            'database': '', # enter your database name here
+            'user' : '', # enter user here
+            'password': '', # enter your password here  
+        }
+```
 3. Make sure you are logged into AWS on your CLI, with permission to access and read s3 buckets. 
 4. Run ``` main_script.py ``` to execute the entire data pipeline.  
 5. Open pgAdmin and run the ``` MRDC_database_schema.sql ``` file on your database to convert your table columns to the appropriate data type.  
-6. Use the ``` MRDC_querying_the_data.sql ``` file to run some queries to analyse the data.  
+6. Use the ``` MRDC_querying_the_data.sql ``` file to run some queries to analyse the data. For example, trying to find which store types in Germany have the most sales:
+![Example SQL query](https://github.com/5hivani0/multinational-retail-data-centralisation442/assets/149093767/6015e459-60be-44f6-86a2-a5cad6290120)
+
   
 * If you want to access other data sources using the framework of the python scripts, edit the parameters in ``` main_script.py ``` to specify the paths, URLs, and other details relevant to your data sources and database. You can also edit the API in the ``` api_key.txt ``` file. Change cleaning methods and SQL table alterations and queries accordingly.
 
