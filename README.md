@@ -50,7 +50,7 @@ Before using tabula, ensure that Java is installed on your machine, refer to thi
 ## Usage ##
 1. Create a database on pgAdmin to store future cleaned dataframes.  
 2. Fill in the required credentials information in the db_details section of the def upload_to_db method, found in the ``` database_utils.py ``` file, so that you can upload the cleaned dataframes to the databse you created in step 1.
-```
+``` python
  db_details = {
             'host': '', # enter host here
             'port': '', # enter port here
